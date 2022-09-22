@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title>Reporte de incidentes de datos</title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo1_Reporte de incidentes de datos.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Cuestionario Reporte de incidentes de datos</legend>
+	<div id="test">
+		<div class="cuestion">1. Un punto importante en la detecci&oacute;n, evaluaci&oacute;n y an&aacute;lisis corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : Conocer las caracter&iacute;sticas normales a nivel de red y de los sistemas.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b :Clasificaci&oacute;n de incidentes de seguridad de la informaci&oacute;n.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Informes de software antivirus.&nbsp;</label>
+		</div>
+		<div class="cuestion">2. “Es la etapa en donde se comprueba que existan los recursos y herramientas necesarios para abarcar un incidente.” El enunciado anterior hace referencia a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Preparaci&oacute;n.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Detecci&oacute;n.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Contenci&oacute;n.&nbsp;</label>
+		</div>
+		<div class="cuestion">3. La preparaci&oacute;n toma en consideraci&oacute;n:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="2" value="a">&nbsp;a : Erradicaci&oacute;n.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="b">&nbsp;b : Recuperaci&oacute;n.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="c">&nbsp;c : Hardware y software. &nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. Un punto importante en la detección, evaluación y análisis corresponde a:",
+				respuestas:
+				{
+					a: "Conocer las características normales a nivel de red y de los sistemas.",
+					b: "Clasificación de incidentes de seguridad de la información.",
+					c: "Informes de software antivirus.",
+				},
+				respuestaCorrecta: "b",
+			},
+			{
+				pregunta: "2. “Es la etapa en donde se comprueba que existan los recursos y herramientas necesarios para abarcar un incidente.” El enunciado anterior hace referencia a:",
+				respuestas:
+				{
+					a: "Preparación.",
+					b: "Detección.",
+					c: "Contención.",
+				},
+				respuestaCorrecta: "a",
+			},
+			{
+				pregunta: "3. La preparación toma en consideración:",
+				respuestas:
+				{
+					a: "Erradicación.",
+					b: "Recuperación.",
+					c: "Hardware y software.",
+				},
+				respuestaCorrecta: "b",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
